@@ -18,7 +18,7 @@ public class Plugin : BaseUnityPlugin
 {
     public const string modGUID = "taffyko.NameplateTweaks";
     public const string modName = "NameplateTweaks";
-    public const string modVersion = "1.0.0";
+    public const string modVersion = "1.0.1";
 
     public static ConfigEntry<bool> ConfigEnableSpeakingIndicator;
     public static ConfigEntry<bool> ConfigVariableSpeakingIndicatorOpacity;
