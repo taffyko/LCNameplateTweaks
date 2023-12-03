@@ -18,7 +18,7 @@ public class Plugin : BaseUnityPlugin
 {
     public const string modGUID = "taffyko.NameplateTweaks";
     public const string modName = "NameplateTweaks";
-    public const string modVersion = "1.0.1";
+    public const string modVersion = "1.0.2";
 
     public static ConfigEntry<bool> ConfigEnableSpeakingIndicator;
     public static ConfigEntry<bool> ConfigVariableSpeakingIndicatorOpacity;
@@ -163,11 +163,11 @@ internal class PlayerControllerBPatches
             SpeakingIndicator.GetSpeakingIndicator(__instance);
         }
         
-        // Make billboard follow head height
+        // Make billboard follow player's head
         __instance.usernameBillboard.position = new Vector3(
-            __instance.usernameBillboard.position.x,
+            __instance.playerGlobalHead.position.x,
             __instance.playerGlobalHead.position.y + 0.55f,
-            __instance.usernameBillboard.position.z
+            __instance.playerGlobalHead.position.z
         );
 
         var localPlayer = StartOfRound.Instance.localPlayerController;
