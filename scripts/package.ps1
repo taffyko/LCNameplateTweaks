@@ -14,6 +14,7 @@ Compress-Archive -Force -Path @(
 	"manifest.json",
 	"icon.png",
 	"README.md",
+	"CHANGELOG.md",
 	"BepInEx"
 ) -DestinationPath "taffyko-$name-$version.zip"
 

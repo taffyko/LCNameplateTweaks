@@ -7,7 +7,6 @@ using BepInEx.Logging;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEngine.UIElements.Collections;
 using System;
 using System.Reflection;
 
@@ -18,7 +17,7 @@ public class Plugin : BaseUnityPlugin
 {
     public const string modGUID = "taffyko.NameplateTweaks";
     public const string modName = "NameplateTweaks";
-    public const string modVersion = "1.0.2";
+    public const string modVersion = "1.0.3";
 
     public static ConfigEntry<bool> ConfigEnableSpeakingIndicator;
     public static ConfigEntry<bool> ConfigVariableSpeakingIndicatorOpacity;
@@ -137,6 +136,11 @@ public class SpeakingIndicator : MonoBehaviour {
             canvasItemAlpha.alpha = Math.Min(canvasItemAlpha.alpha, player.usernameAlpha.alpha);
         }
 
+        if (player.IsOwner) {
+            // Hide own speaking indicator
+            canvasItemAlpha.alpha = 0f;
+        }
+
         if (!Plugin.ConfigEnableSpeakingIndicator.Value) {
             Destroy(gameObject);
         }
@@ -148,14 +152,26 @@ public class SpeakingIndicator : MonoBehaviour {
     }
 }
 
-
-[HarmonyPatch(typeof(PlayerControllerB))]
-internal class PlayerControllerBPatches
-{
-    [HarmonyPatch("Update")]
+[HarmonyPatch]
+public class Patches {
+    [HarmonyPatch(typeof(HUDManager), "UpdateSpectateBoxSpeakerIcons")]
     [HarmonyPostfix]
-    private static void Update_Postfix(PlayerControllerB __instance)
-    {
+    public static void UpdateSpectateBoxSpeakerIcons(HUDManager __instance, ref Dictionary<Animator, PlayerControllerB> ___spectatingPlayerBoxes) {
+        // Only show spectator speaking icon when push-to-talk button is pressed
+        foreach (var (anim, player) in ___spectatingPlayerBoxes) {
+            if (player.IsOwner) {
+                if (IngamePlayerSettings.Instance?.settings?.pushToTalk ?? false) {
+                    var pttPressed = IngamePlayerSettings.Instance.playerInput?.actions?.FindAction("VoiceButton", false)?.IsPressed() ?? false;
+                    anim.SetBool("speaking", pttPressed);
+                }
+                break;
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(PlayerControllerB), "Update")]
+    [HarmonyPostfix]
+    public static void PlayerUpdate(PlayerControllerB __instance) {
         __instance.usernameBillboardText.text = __instance.playerUsername;
 
         // Create speaking indicators if they don't already exist
@@ -170,12 +186,15 @@ internal class PlayerControllerBPatches
             __instance.playerGlobalHead.position.z
         );
 
-        var localPlayer = StartOfRound.Instance.localPlayerController;
-        if (localPlayer != null) {
+        if (__instance.IsOwner) {
+            // Hide own nameplate
+            __instance.usernameAlpha.alpha = 0f;
+        } else {
             float distance = Vector3.Distance(
-                localPlayer.gameplayCamera.transform.position,
+                __instance.gameplayCamera.transform.position,
                 __instance.usernameBillboard.position
             );
+
             if (distance < Plugin.ConfigNameplateVisibilityDistance.Value) {
                 __instance.usernameAlpha.alpha = 1f;
                 __instance.usernameBillboardText.enabled = true;

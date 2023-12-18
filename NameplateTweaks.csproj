@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>NameplateTweaks</AssemblyName>
     <Description>Configurable client-side mod for player username billboards. Speaking indicators, better visibility, etc.</Description>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -25,6 +25,9 @@
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>..\..\Lethal Company_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>..\..\Lethal Company_Data\Managed\Unity.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\Lethal Company_Data\Managed\UnityEngine.dll</HintPath>
@@ -51,6 +54,6 @@
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
   </ItemGroup>
 </Project>
