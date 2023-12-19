@@ -1,5 +1,7 @@
+# 1.0.4
+Removes accidental declaration of LC_API as a dependency ([#3](https://github.com/taffyko/LCNameplateTweaks/issues/3))
 # 1.0.3
-- Fixes an issue where you could occassionally see your own nameplate.
+- Fixes an issue where you could occassionally see your own nameplate. ([#2](https://github.com/taffyko/LCNameplateTweaks/issues/2))
 - Improves the voice activity indicator on the spectator screen
 # 1.0.2
 Fixes [Issue #1](https://github.com/taffyko/LCNameplateTweaks/issues/1)
