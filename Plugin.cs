@@ -16,8 +16,8 @@ namespace NameplateTweaks;
 public class Plugin : BaseUnityPlugin
 {
     public const string modGUID = "taffyko.NameplateTweaks";
-    public const string modName = "NameplateTweaks";
-    public const string modVersion = "1.0.4";
+    public const string modName = PluginInfo.PLUGIN_NAME;
+    public const string modVersion = PluginInfo.PLUGIN_VERSION;
 
     public static ConfigEntry<bool> ConfigEnableSpeakingIndicator;
     public static ConfigEntry<bool> ConfigVariableSpeakingIndicatorOpacity;
@@ -186,12 +186,12 @@ public class Patches {
             __instance.playerGlobalHead.position.z
         );
 
-        if (__instance.IsOwner) {
+        if (__instance == StartOfRound.Instance?.localPlayerController) {
             // Hide own nameplate
             __instance.usernameAlpha.alpha = 0f;
         } else {
             float distance = Vector3.Distance(
-                __instance.gameplayCamera.transform.position,
+                StartOfRound.Instance.localPlayerController.gameplayCamera.transform.position,
                 __instance.usernameBillboard.position
             );
 

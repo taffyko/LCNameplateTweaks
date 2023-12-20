@@ -1,3 +1,5 @@
+# 1.0.5
+Fixes nameplates showing regardless of distance
 # 1.0.4
 Removes accidental declaration of LC_API as a dependency ([#3](https://github.com/taffyko/LCNameplateTweaks/issues/3))
 # 1.0.3
