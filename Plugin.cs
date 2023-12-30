@@ -189,7 +189,7 @@ public class Patches {
         if (__instance == StartOfRound.Instance?.localPlayerController) {
             // Hide own nameplate
             __instance.usernameAlpha.alpha = 0f;
-        } else {
+        } else if (StartOfRound.Instance?.localPlayerController != null) {
             float distance = Vector3.Distance(
                 StartOfRound.Instance.localPlayerController.gameplayCamera.transform.position,
                 __instance.usernameBillboard.position
