@@ -1,3 +1,5 @@
+# 1.0.6
+Fixes ([#6](https://github.com/taffyko/LCNameplateTweaks/issues/6))
 # 1.0.5
 Fixes nameplates showing regardless of distance
 # 1.0.4
